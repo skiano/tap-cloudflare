@@ -1,0 +1,10 @@
+node_modules/
+
+# ignore generated pages
+html/**/*.html
+
+# ingone generated syle imports
+functions/**/*.style.js
+
+# Ignore local env variables
+.dev.vars
