@@ -1,8 +1,9 @@
-[![Hosting](https://img.shields.io/badge/hosting-cloudflare-purple)](https://dash.cloudflare.com/0e035f8807670e3c974c8c281effd027/pages/view/thv)
+# Cloudflare + /tap
 
-# [thv.ink](https://thv.ink)
+- [cloudflare pages](https://developers.cloudflare.com/pages/)
+- [tap](https://www.tatatap.com/)
 
-Built using [cloudflare pages](https://developers.cloudflare.com/pages/)
+_TODO: ABOUT_
 
 # Setup local environment
 
@@ -14,14 +15,4 @@ TAP_API_KEY={YOUR_TAP_API_KEY}
 
 ## Development
 
-Build the html
-
-```bash
-$ npm run dev
-```
-
-Serve the pages environment
-
-```bash
-$ npm run pages
-```
+_TODO_
