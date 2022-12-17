@@ -12,17 +12,12 @@ const start_time = Date.now();
 /**
  * Assemble all the site data
  */
-const { pages } = await assemble();
-
-/**
- * Remove old generated files
- */
-if (fs.existsSync('html')) await fs.rm('html', { force: true, recursive: true });
-if (fs.existsSync('function')) await fs.rm('function', { force: true, recursive: true });
+const { pages, functions } = await assemble();
 
 /**
  * Write all the pages
  */
+if (fs.existsSync('html')) await fs.rm('html', { force: true, recursive: true });
 for (let page in pages) {
   const html = pages[page];
   const filePath = page.endsWith('.html')
@@ -33,8 +28,13 @@ for (let page in pages) {
 
 /**
  * Write all the functions
- * TODO...
  */
+if (fs.existsSync('functions')) await fs.rm('functions', { force: true, recursive: true });
+for (let fn in functions) {
+  const code = functions[fn];
+  const filePath = path.join('functions', `${fn}.mjs`)
+  await forceWriteFile(filePath, code);
+}
 
 /**
  * Copy images???

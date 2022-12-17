@@ -10,6 +10,17 @@ site:
       inline: true
     - file: article.css
       inline: false
+    notes:
+    - file: base.css
+      inline: true
+    - file: notes.css
+      inline: false
+
+functions:
+  - path: /notes
+    template: notes
+    secret_name_tap_url: TAP_URL_1
+    secret_name_tap_key: TAP_KEY_1
 
 pages:
   - path: /
