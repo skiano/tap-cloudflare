@@ -37,9 +37,9 @@ export async function onRequestGet(context) {
 
   props.tap_notes = await res.json();
   props.request = {
+    url: context.request.url,
     path: context.functionPath,
     params: context.params, 
-    ...context.request,
   };
 
   const html = toString(Page({
