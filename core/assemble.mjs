@@ -3,11 +3,15 @@ import util from 'node:util';
 import path from 'node:path';
 import assert from 'node:assert';
 import rawGlob from 'glob';
+import md2html from './markdown.mjs';
+import { toString } from 'genz';
 import { parse as parseYml } from 'yaml';
 
 const glob = util.promisify(rawGlob);
 
 export default async function assemble() {
+  const pages = {};
+
   const buff = await fs.readFile('config.yml');
   const config = parseYml(buff.toString());
 
@@ -22,6 +26,12 @@ export default async function assemble() {
   }))).reduce((map, { id, render }) => {
     return { ...map, [id]: render };
   }, {});
+
+  /**
+   * Get the page wrapper
+   */
+  const Page = templateMap[config.site.template_base];
+  assert(Page, `Could not find template_base [${config.site.template_base}]`);
   
   /**
    * Create all the pages
@@ -32,22 +42,41 @@ export default async function assemble() {
     assert(page.path, 'All pages must have a path');
     assert(templateMap[page.template], `Page ${idx} (${page.path}) uses missing template [${page.template}].\n\n\tValid templates: \n\t  -${Object.keys(templateMap).join('\n\t  -')}\n`);
 
-    if (page.markdown) {
-      page.markdown = Array.isArray(page.markdown) ? page.markdown : [page.markdown];
-      const markdownMap = (await Promise.all(page.markdown.map(async (md) => {
-        const buff = await fs.readFile(path.join('markdown', md))
-        console.log(buff.toString());
-        return { id: 1, html: '' }
-      }))).reduce((map, { id, html }) => {
-        return { ...map, [id]: html };
-      }, {});
-    }
+    /**
+     * Load any associated markdown files for the page
+     * TODO: validate page.markdown?
+     */
+    const markdownMap = (await Promise.all(Object.entries(page.markdown || {}).map(async ([key, md]) => {
+      assert(!page.props.hasOwnProperty(key), `Page ${idx} (${page.path}) has key collision [${key}] for markdown and props`);
+      try {
+        const buff = await fs.readFile(path.join('markdown', md));
+        const html = md2html(buff.toString());
+        return { key, html }
+      } catch (err) {
+        err.message = `Could not load markdown [${md}]\n\n${err.message}`;
+        throw err;
+      }
+    }))).reduce((map, { key, html }) => {
+      return { ...map, [`${key}`]: html };
+    }, {});
 
-    templateMap[page.template]({
-      ...page.props,
-    })
+    /**
+     * Render the page html
+     */
+    const finalProps = { ...markdownMap, ...page.props };
+    const finalHtml = toString(Page({
+      css: '', // TODO: get the css
+      props: finalProps,
+      ctx: config,
+    }, templateMap[page.template]({ props: finalProps, ctx: config })));
+
+    pages[page.path] = finalHtml;
   }
+
+  return pages;
 }
 
-assemble();
+const site = await assemble();
+
+console.log(site);
 

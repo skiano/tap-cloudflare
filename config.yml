@@ -2,34 +2,34 @@ site:
   url: https://tap-cloudflare.pages.dev
   template_base: page
   template_styles:
-    - home:
-      - file: base.css
-        inline: true
-    - article:
-      - file: base.css
-        inline: true
-      - file: article.css
-        inline: false
+    home:
+    - file: base.css
+      inline: true
+    article:
+    - file: base.css
+      inline: true
+    - file: article.css
+      inline: false
 
 pages:
   - path: /
     template: home
     props:
-      - meta:title: Home
-      - meta:description: Very cool homepage
+      meta:title: Home
+      meta:description: Very cool homepage
 
   - path: /404.html
     template: not-found
     props:
-      - meta:title: Home
-      - meta:description: Very cool homepage
+      meta:title: Home
+      meta:description: Very cool homepage
 
   - path: /article/example
     template: article
     markdown:
-      - example.md
+      body: example.md
     props:
-      - meta:title: Article Title
-      - meta:description: Very cool homepage
-      - title: Article Title
-      - subtitle: A Very Neat Article
+      meta:title: Article Title
+      meta:description: Very cool homepage
+      title: Article Title
+      subtitle: A Very Neat Article

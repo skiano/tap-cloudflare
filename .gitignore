@@ -1,10 +1,11 @@
-node_modules/
-
-# ignore generated pages
+# Generated pages
 html/**/*.html
 
-# ingone generated syle imports
-functions/**/*.style.js
+# Generated function files
+functions/**/*.mjs
 
-# Ignore local env variables
+# Local env variables
 .dev.vars
+
+# Etc
+node_modules/
