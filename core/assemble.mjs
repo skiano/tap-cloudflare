@@ -10,10 +10,9 @@ import { parse as parseYml } from 'yaml';
 const glob = util.promisify(rawGlob);
 
 export default async function assemble() {
-  const pages = {};
-
   const buff = await fs.readFile('config.yml');
   const config = parseYml(buff.toString());
+  const pages = {};
 
   /**
    * Create a map from template id to template renderer
@@ -73,10 +72,5 @@ export default async function assemble() {
     pages[page.path] = finalHtml;
   }
 
-  return pages;
+  return { pages };
 }
-
-const site = await assemble();
-
-console.log(site);
-
