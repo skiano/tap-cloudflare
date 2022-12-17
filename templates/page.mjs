@@ -9,11 +9,11 @@ import { _ } from 'genz';
 // <meta name="twitter:site" content="@myawesomeblog" />
 // <meta name="twitter:creator" content="@myawesomeblogger" />
 
-export default function Page({ content, og, css }) {
-  og = { ...og };
+export default function Page({ props, css, ctx }, content) {
+  const og = {}; // TODO: get from props
   return _.html({ lang: 'en' },
     _.head(
-      _.title('thv.ink'),
+      _.title(ctx.site.title),
       _.link({ rel: 'icon', type: 'image/png', href: '/images/favicon.png', sizes: '64x64' }),
       _.meta({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }),
       _.meta({ charset: 'UTF-8' }),
@@ -24,7 +24,7 @@ export default function Page({ content, og, css }) {
       og.type && _.meta({ property: 'og:type', content: og.type }),
       og.author && _.meta({ property: 'og:article:author', content: og.author }),
       _.meta({ property: 'og:site_name', content: 'thv.ink' }),
-      _.style(css),
+      _.style(css ? css : undefined),
     ),
     _.body(
       _.main(content)

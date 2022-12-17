@@ -36,12 +36,17 @@ export async function onRequestGet(context) {
   });
 
   props.tap_notes = await res.json();
-  props.request_context = context;
+  props.request = {
+    path: context.functionPath,
+    params: context.params, 
+    ...context.request,
+  };
 
   const html = toString(Page({
+    ctx,
     css,
     props,
-  }, Content({ props, ctx })));
+  }, Content({ ctx, props })));
 
   const response = new Response(html);
   response.headers.set("Content-Type", "text/html; charset=utf-8");

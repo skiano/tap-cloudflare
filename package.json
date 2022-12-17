@@ -5,7 +5,7 @@
   "description": "thv website",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon build.mjs -e .mjs,.css,.md,.yml",
+    "dev": "nodemon core/build.mjs -e .mjs,.css,.md,.yml",
     "pages": "wrangler pages dev html --compatibility-date=2022-12-10"
   },
   "repository": {

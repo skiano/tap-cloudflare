@@ -1,5 +1,6 @@
 site:
   url: https://tap-cloudflare.pages.dev
+  title: My cool site
   template_base: page
   template_styles:
     home:

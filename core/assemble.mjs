@@ -66,7 +66,7 @@ export default async function assemble() {
      */
     const finalProps = { ...markdownMap, ...page.props };
     const finalHtml = toString(Page({
-      css: '', // TODO: get the css
+      css: 'html { background: yellow }', // TODO: get the css
       props: finalProps,
       ctx: config,
     }, templateMap[page.template]({ props: finalProps, ctx: config })));
@@ -85,7 +85,7 @@ export default async function assemble() {
     assert(templateMap[fn.template], `Function ${f} (${fn.path}) uses missing template [${fn.template}].\n\n\tValid templates: \n\t  -${Object.keys(templateMap).join('\n\t  -')}\n`);
 
     const code = makeFunction({
-      css: '', // TODO: get the css
+      css: 'html { background: yellow }', // TODO: get the css
       ctx: config,
       props: fn.props || {},
       template_page: config.site.template_base,
